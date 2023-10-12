@@ -9,3 +9,12 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
+
+alias BeTeam.Repo
+alias BeTeam.Teams.TeamType
+
+types = ~w"QA Front Dev DevOps Support BA"
+|> Enum.each(fn name ->
+  args = %{name: name}
+  TeamType.changeset(%TeamType{}, args) |>  Repo.insert(on_conflict: :nothing)
+end)

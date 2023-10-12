@@ -3,8 +3,15 @@
     Oops, something went wrong! Please check the errors below.
   </.error>
   <.input field={f[:name]} type="text" label="Name" />
-  <.input field={f[:type]} type="text" label="Type" />
-  <.input field={f[:description]} type="text" label="Description" />
+  <.input field={f[:type_id]}
+    type="select"
+    name="team[type_id]"
+    label="Type"
+    prompt="Select team type"
+    options={BeTeam.Teams.list_team_types_for_select()}
+    value={@changeset.data.type_id}
+  />
+  <.input field={f[:description]} type="textarea" label="Description" />
   <:actions>
     <.button>Save Team</.button>
   </:actions>

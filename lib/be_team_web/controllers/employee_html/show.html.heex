@@ -14,6 +14,7 @@
   <:item title="Last name"><%= @employee.last_name %></:item>
   <:item title="Role"><%= @employee.role %></:item>
   <:item title="Team"><%= get_team_name(@employee.team_id) %></:item>
+  <:item title="Team"><.show_team team_id={@employee.team_id} /></:item>
   <:item title="Description"><%= @employee.description %></:item>
 </.list>
 

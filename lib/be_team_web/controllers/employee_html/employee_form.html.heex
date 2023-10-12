@@ -6,7 +6,9 @@
   <.input field={f[:surname]} type="text" label="Surname" />
   <.input field={f[:last_name]} type="text" label="Last name" />
   <.input field={f[:role]} type="text" label="Role" />
-  <.input field={f[:description]} type="text" label="Description" />
+  <.input field={f[:description]} type="textarea" label="Description" />
+  <p>Team ID: <%= @changeset.data.team_id %></p>
+  <BeTeamWeb.TeamHTML.team_selector selected_team_id={@changeset.data.team_id} />
   <:actions>
     <.button>Save Employee</.button>
   </:actions>

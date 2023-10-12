@@ -197,4 +197,13 @@ defmodule BeTeam.Teams do
   def change_employee(%Employee{} = employee, attrs \\ %{}) do
     Employee.changeset(employee, attrs)
   end
+
+  def list_team_types do
+    Repo.all(BeTeam.Teams.TeamType)
+  end
+
+  def list_team_types_for_select do
+    list_team_types()
+    |> Enum.reduce([], fn ttype, acc -> [{ttype.name, ttype.id} | acc ] end)
+  end
 end

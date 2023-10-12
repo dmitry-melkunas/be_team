@@ -4,9 +4,9 @@ defmodule BeTeam.Teams.Team do
 
   schema "teams" do
     field :name, :string
-    field :type, :string
     field :description, :string
 
+    belongs_to :team_type, BeTeam.Teams.TeamType, foreign_key: :type_id
     has_many :employees, BeTeam.Teams.Employee
 
     timestamps()
@@ -15,7 +15,7 @@ defmodule BeTeam.Teams.Team do
   @doc false
   def changeset(team, attrs) do
     team
-    |> cast(attrs, [:name, :type, :description])
-    |> validate_required([:name, :type, :description])
+    |> cast(attrs, [:name, :type_id, :description])
+    |> validate_required([:name, :type_id, :description])
   end
 end

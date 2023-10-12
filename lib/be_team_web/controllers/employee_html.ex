@@ -15,4 +15,13 @@ defmodule BeTeamWeb.EmployeeHTML do
     team = BeTeam.Teams.get_team!(team_id)
     team.name
   end
+
+  def show_team(assigns) do
+    team = BeTeam.Teams.get_team!(assigns.team_id)
+    assigns = assign(assigns, :team_name, team.name)
+    assigns = assign(assigns, :team_type, team.type)
+    ~H"""
+    <b><%= @team_name %> / <%= @team_type %></b>
+    """
+  end
 end
