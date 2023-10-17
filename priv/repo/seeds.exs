@@ -12,9 +12,16 @@
 
 alias BeTeam.Repo
 alias BeTeam.Teams.TeamType
+alias BeTeam.Teams.Role
 
-types = ~w"QA Front Dev DevOps Support BA"
+~w"QA Front Dev DevOps Support BA"
 |> Enum.each(fn name ->
-  args = %{name: name}
-  TeamType.changeset(%TeamType{}, args) |>  Repo.insert(on_conflict: :nothing)
+  TeamType.changeset(%TeamType{}, %{name: name})
+  |> Repo.insert(on_conflict: :nothing)
+end)
+
+~w"Lead Developer QA DevOps Support BA Architect HR Account Manager Lawyer"
+|> Enum.each(fn name ->
+  Role.changeset(%Role{}, %{name: name})
+  |> Repo.insert(on_conflict: :nothing)
 end)

@@ -147,7 +147,7 @@ defmodule BeTeam.Teams do
   """
   def create_employee(attrs \\ %{}) do
     %Employee{}
-    |> Employee.changeset(attrs)
+    |> change_employee(attrs)
     |> Repo.insert()
   end
 
@@ -165,7 +165,7 @@ defmodule BeTeam.Teams do
   """
   def update_employee(%Employee{} = employee, attrs) do
     employee
-    |> Employee.changeset(attrs)
+    |> change_employee(attrs)
     |> Repo.update()
   end
 
@@ -195,7 +195,14 @@ defmodule BeTeam.Teams do
 
   """
   def change_employee(%Employee{} = employee, attrs \\ %{}) do
-    Employee.changeset(employee, attrs)
+    # TODO: validate each role_id is valid
+    roles = get_roles(attrs["role_ids"])
+    attrs = Map.put(attrs, "roles", roles)
+
+    employee
+    |> Repo.preload([:roles])
+    |> Employee.changeset(attrs)
+    |> Ecto.Changeset.put_assoc(:roles, roles)
   end
 
   def list_team_types do
@@ -205,5 +212,47 @@ defmodule BeTeam.Teams do
   def list_team_types_for_select do
     list_team_types()
     |> Enum.reduce([], fn ttype, acc -> [{ttype.name, ttype.id} | acc ] end)
+  end
+
+  def get_team_type!(type_id) do
+    Repo.get!(BeTeam.Teams.TeamType, type_id)
+  end
+
+  def get_roles(nil), do: []
+
+  def get_roles(role_ids) do
+    Repo.all(
+      from r in BeTeam.Teams.Role,
+      where: r.id in ^role_ids
+    )
+  end
+
+  def list_roles_for_employee(employee_id) when is_integer(employee_id) do
+    employee_id
+    |> get_employee!()
+    |> list_roles_for_employee()
+  end
+
+  def list_roles_for_employee(%Employee{} = employee) do
+    employee = Repo.preload(employee, [:roles])
+    employee.roles
+  end
+
+  def list_roles_for_select() do
+    Repo.all(BeTeam.Teams.Role)
+    |> Enum.map(fn role -> [key: role.name, value: role.id] end)
+  end
+
+  def list_roles_for_select(employee_or_id) do
+    selected_role_ids =
+      list_roles_for_employee(employee_or_id)
+      |> Enum.map(fn role -> role.id end)
+
+    list_roles_for_select()
+    |> Enum.map(
+      fn option ->
+        new_key = {:selected, option[:value] in selected_role_ids}
+        [new_key | option]
+      end)
   end
 end

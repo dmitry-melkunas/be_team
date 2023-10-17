@@ -18,10 +18,25 @@ defmodule BeTeamWeb.EmployeeHTML do
 
   def show_team(assigns) do
     team = BeTeam.Teams.get_team!(assigns.team_id)
+    team_type = BeTeam.Teams.get_team_type!(team.type_id)
     assigns = assign(assigns, :team_name, team.name)
-    assigns = assign(assigns, :team_type, team.type)
+    assigns = assign(assigns, :team_type, team_type.name)
     ~H"""
-    <b><%= @team_name %> / <%= @team_type %></b>
+    <b><%= @team_name %></b> / <%= @team_type %>
+    """
+  end
+
+  attr :employee, :map, required: true
+
+  def show_roles(assigns) do
+    roles = BeTeam.Teams.list_roles_for_employee(assigns.employee)
+    assigns = assign(assigns, :roles, roles)
+    ~H"""
+    <%= for role <- @roles do %>
+    <ul>
+    <li><%= role.name %></li>
+    </ul>
+    <% end %>
     """
   end
 end

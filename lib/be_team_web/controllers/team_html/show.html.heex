@@ -10,7 +10,7 @@
 
 <.list>
   <:item title="Name"><%= @team.name %></:item>
-  <:item title="Type"><%= @team.type_id %></:item>
+  <:item title="Type"><.team_type type_id={@team.type_id} /></:item>
   <:item title="Description"><%= @team.description %></:item>
 </.list>
 

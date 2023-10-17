@@ -12,8 +12,7 @@
   <:item title="First name"><%= @employee.first_name %></:item>
   <:item title="Surname"><%= @employee.surname %></:item>
   <:item title="Last name"><%= @employee.last_name %></:item>
-  <:item title="Role"><%= @employee.role %></:item>
-  <:item title="Team"><%= get_team_name(@employee.team_id) %></:item>
+  <:item title="Roles"><.show_roles employee={@employee} /></:item>
   <:item title="Team"><.show_team team_id={@employee.team_id} /></:item>
   <:item title="Description"><%= @employee.description %></:item>
 </.list>

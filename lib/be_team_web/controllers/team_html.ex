@@ -26,4 +26,12 @@ defmodule BeTeamWeb.TeamHTML do
     </select>
     """
   end
+
+  attr :type_id, :integer, required: true
+
+  def team_type(assigns) do
+    type = BeTeam.Teams.get_team_type!(assigns.type_id)
+    assigns = assign(assigns, :type_name, type.name)
+    ~H"<%= @type_name %>"
+  end
 end

@@ -11,7 +11,7 @@
   <:col :let={employee} label="First name"><%= employee.first_name %></:col>
   <:col :let={employee} label="Surname"><%= employee.surname %></:col>
   <:col :let={employee} label="Last name"><%= employee.last_name %></:col>
-  <:col :let={employee} label="Role"><%= employee.role %></:col>
+  <:col :let={employee} label="Roles"><.show_roles employee={employee} /></:col>
   <:col :let={employee} label="Description"><%= employee.description %></:col>
   <:col :let={employee} label="Team"><%= get_team_name(employee.team_id) %></:col>
   <:action :let={employee}>
